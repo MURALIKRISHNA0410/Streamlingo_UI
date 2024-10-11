@@ -1,0 +1,106 @@
+/* Global Styles - Dark Theme */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Very dark background */
+    color: #eaeaea; /* Light text for contrast */
+  }
+  
+  /* App Container */
+  #app {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(145deg, #1e1e1e, #2a2a2a); /* Gradient background for the container */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.1); /* Enhanced shadow for depth */
+    border-radius: 15px;
+    border: 2px solid #4A5056; /* Sleek gray border */
+  }
+  
+  /* Input Container */
+  .input-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Input Groups */
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Input Fields */
+  input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #4A5056; /* Gray border */
+    border-radius: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    color: #eaeaea;
+    background-color: #333; /* Dark input background */
+    transition: background-color 0.3s;
+  }
+  
+  input[type="text"]:focus {
+    border-color: #2196F3; /* Bright blue on focus */
+    background-color: #444;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 10px 20px;
+    background: #4CAF50; /* Green background for buttons */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  button:hover {
+    background-color: #43A047; /* Darker green on hover */
+    transform: translateY(-2px); /* Lift effect */
+  }
+  
+  /* Users Connected */
+  .users-connected {
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #4CAF50; /* Vibrant green for connected users */
+  }
+  
+  /* Video Container */
+  .video-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  video {
+    width: 48%;
+    border: 2px solid #4A5056; /* Gray border */
+    border-radius: 10px;
+    background: #121212; /* Keep video background dark */
+  }
+  
+  /* Transcription Container */
+  .transcription-container {
+    margin-top: 20px;
+  }
+  
+  #transcription {
+    background: #4A5056; /* Sleek gray background for transcription */
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 50px;
+    font-weight: bold;
+    color: #2196F3; /* Bright blue for transcription text */
+  }
+  
