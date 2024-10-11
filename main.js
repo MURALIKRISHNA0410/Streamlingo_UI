@@ -294,7 +294,7 @@ function playTranslatedSpeech(audioData) {
 
 {/*===============this code removes the buffer but unable to stop the reptionof and trascribed text and transalted audio================= */}
 
-{/*this code removes the buffer but unable to stop the reptionof and trascribed text and transalted audio
+{/*this code removes the buffer but unable to stop the reptionof and trascribed text and transalted audio*/}
   const createBtn = document.querySelector("#createBtn");
 const joinBtn = document.querySelector("#joinBtn");
 const userInput = document.querySelector("#userInput");
@@ -572,11 +572,11 @@ function playTranslatedSpeech(audioData) {
     source.start(0);
   });
 }
-  */}
+  
 
 
 
-
+{/*
   const createBtn = document.querySelector("#createBtn");
   const joinBtn = document.querySelector("#joinBtn");
   const userInput = document.querySelector("#userInput");
@@ -847,5 +847,5 @@ function playTranslatedSpeech(audioData) {
       pushStream.close();
     }
   });
-  
+*/}
 
