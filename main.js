@@ -594,7 +594,7 @@ function playTranslatedSpeech(audioData) {
 {/*===============this code removes the buffer but unable to stop the reptionof and trascribed text and transalted audio================= */}
 
 {/*this code removes the buffer but unable to stop the reptionof and trascribed text and transalted audio*/}
-  const createBtn = document.querySelector("#createBtn");
+  {/*const createBtn = document.querySelector("#createBtn");
 const joinBtn = document.querySelector("#joinBtn");
 const userInput = document.querySelector("#userInput");
 const roomInput = document.querySelector("#roomInput");
@@ -872,7 +872,7 @@ function playTranslatedSpeech(audioData) {
   });
 }
   
-
+*/}
 
 
 {/*
