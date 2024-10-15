@@ -49,6 +49,23 @@ body {
     border-color: #2196F3; /* Bright blue on focus */
     background-color: #444;
   }
+
+
+  #languageDropdown {
+    padding: 10px;
+    border: 2px solid #4A5056;
+    border-radius: 10px;
+    background-color: #333; /* Dark background for the dropdown */
+    color: #eaeaea;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #languageDropdown:hover {
+    background-color: #444;
+  }
+  
   
   /* Buttons */
   button {
