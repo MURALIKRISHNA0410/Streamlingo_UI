@@ -38,7 +38,10 @@ const PeerConnection = (function () {
         {
           urls: ["stun:stun1.l.google.com:19302",
         "stun:stun2.l.google.com:19302",
-        "stun:stun3.l.google.com:19302"],{
+        "stun:stun3.l.google.com:19302"],
+
+        },
+        {
         urls: "stun:stun.relay.metered.ca:80",
       },
       {
@@ -61,8 +64,6 @@ const PeerConnection = (function () {
         username: "317a6a96726c601c4a4cd2ed",
         credential: "9pAW0VLDBGOgYxxq",
       },
-
-        },
       ],
     };
     pc = new RTCPeerConnection(config);
