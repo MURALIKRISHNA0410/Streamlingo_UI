@@ -92,6 +92,7 @@ joinBtn.addEventListener("click", () => {
   const roomNumber = parseInt(roomInput.value);
   if (username && roomNumber !== "") {
     socket.emit("join-user", { roomNumber, username });
+    socket.emit("check",{username});
     // userInputDiv.innerHTML = `ROOM NUMBER ${roomNumber}.`
   } else {
     alert("Please Fill the Places");
@@ -102,8 +103,16 @@ joinBtn.addEventListener("click", () => {
 const languageDropdown = document.querySelector("#languageDropdown");
 
 languageDropdown.addEventListener("change", (e) => {
-  TARGET_LANG = e.target.value;
-  console.log("Updated Target Language:", TARGET_LANG);
+  //TARGET_LANG = e.target.value; // this is changes the target lang for the client who changes the lanuage code.
+  console.log(e.target.value)
+  let newLanguage = e.target.value;
+  if(e.target.value && socket){
+    socket.emit("language-update", {newLanguage});
+    console.log("Updated Target Language: for the speaker so that we can hear in our end", TARGET_LANG,"new language",newLanguage);
+  }else{
+    console.log("unable to get the value or the socket id not initialized")
+  }
+  
 });
 
 //////////////////////\ Sockets.io /\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -167,6 +176,16 @@ socket.on("audioData", (data) => {
   console.log(data);
   playTranslatedSpeech(data);
 });
+
+socket.on("language-update", ({ newLanguage }) => {
+  // Update the target language for other clients
+  TARGET_LANG = newLanguage;
+  console.log(`Target language updated (from another client): ${TARGET_LANG}`);
+});
+
+socket.on("check",({username})=>{
+  console.log("check intiaited in socket");
+})
 
 ////////////////////\ Functions /\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
