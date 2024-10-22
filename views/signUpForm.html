@@ -1,0 +1,46 @@
+<!-- views/signUpForm.html -->
+<form id="signupForm">
+  <input type="text" id="firstName" placeholder="First Name" required />
+  <input type="text" id="lastName" placeholder="Last Name" required />
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <select id="gender" required>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
+  </select>
+  <button type="submit">Sign Up</button>
+</form>
+
+<script>
+  document.getElementById('signupForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+      gender: document.getElementById('gender').value
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        window.location.href = 'https://www.oscowl.in/';
+        console.log("signedUp Successfully");
+        //alert('Signup successful!');
+      } else {
+        alert(data.msg || 'Error signing up');
+      }
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
+  });
+</script>
