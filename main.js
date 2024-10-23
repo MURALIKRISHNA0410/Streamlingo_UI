@@ -26,7 +26,41 @@ const API_REGION = "eastus";
 const SOURCE_LANG = "en-US";
 let TARGET_LANG = "it"; //hi--- for hindi
 
+
 const SPEECH_LANG = "en-US-AvaMultilingualNeural";
+
+
+const languageMap = {
+  "hi-IN": ["te", "ml", "ta", "kn", "es", "en", "it", "fr", "ja", "zh", "ko"],
+  "ta-IN": ["hi", "ml", "te", "kn", "es", "en", "it", "fr", "ja", "zh", "ko"],
+  "ml-IN": ["hi", "ta", "te", "kn", "es", "en", "it", "fr", "ja", "zh", "ko"],
+  "te-IN": ["hi", "ta", "ml", "kn", "es", "en", "it", "fr", "ja", "zh", "ko"],
+  "kn-IN": ["hi", "ta", "ml", "te", "es", "en", "it", "fr", "ja", "ko", "zh"],
+  "es-US": ["hi", "ta", "ml", "te", "kn", "en", "it", "fr", "ja", "ko", "zh"],
+  "en-US": ["hi", "ta", "ml", "te", "kn", "es", "it", "fr", "ja", "ko", "zh"],
+  "it-IT": ["hi", "ta", "ml", "te", "kn", "es", "en", "fr", "ja", "ko", "zh"],
+  "fr-FR": ["hi", "ta", "ml", "te", "kn", "es", "en", "it", "ja", "ko", "zh"],
+  "ja-JP": ["hi", "ta", "ml", "te", "kn", "es", "en", "it", "fr", "ko", "zh"],
+  "ko-KR": ["hi", "ta", "ml", "te", "kn", "es", "en", "it", "fr", "ja", "zh"],
+  "zh-CN": ["hi", "ta", "ml", "te", "kn", "es", "en", "it", "fr", "ja", "ko"]
+};
+
+
+const languageNameMap = {
+  "hi": "Hindi",
+  "ta": "Tamil",
+  "ml": "Malayalam",
+  "te": "Telugu",
+  "kn": "Kannada",
+  "es": "Spanish",
+  "en": "English",
+  "it": "Italian",
+  "fr": "French",
+  "ja": "Japanese",
+  "zh-Hans": "Chinese",
+  "ko": "Korean"
+};
+
 //const SPEECH_LANG = "es-BO-ElviraNeural";
 //////////////////////\ Peer Connection Setup /\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -138,6 +172,22 @@ languageDropdown.addEventListener("change", (e) => {
   
 });
 
+const sourceLanguageDropdown = document.querySelector('#sourceLanguageDropdown');
+sourceLanguageDropdown.addEventListener("change",(e)=>{
+  console.log("source language update",e.target.value)
+  let newLanguage = e.target.value;
+  
+  if(newLanguage && socket){
+    socket.emit("source-language-update",{newLanguage});
+    console.log("updated source langaue and send to socket")
+
+  }else{
+    console.log("unable to get the value or the socketid not initialized");
+  }
+
+});
+
+
 //////////////////////\ Sockets.io /\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 socket.on("connected", (data) => {
@@ -206,15 +256,43 @@ socket.on("language-update", ({ newLanguage }) => {
   console.log(`Target language updated (from another client): ${TARGET_LANG}`);
 });
 
+socket.on("source-target-update",({newLanguage})=>{
+  let lang = newLanguage;
+  console.log("updated the source langauge at the speaker end to",lang);
+  if(lang){
+    updateTargetLanguages(lang);
+  }
+  else{
+    console.log("didn't got the source language from the speaker");
+  }
+  
+});
+
 socket.on("check",({username})=>{
   console.log("check intiaited in socket");
-})
+});
 
 ////////////////////\ Functions /\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 function randomRoomNumber() {
   const randomNumber = Math.floor(Math.random() * 100) + 1;
   return randomNumber;
+}
+
+function updateTargetLanguages(sourceLang) {
+  const targetLanguages = languageMap[sourceLang] || [];
+  const languageDropdown = document.querySelector("#languageDropdown");
+  
+  // Clearing the present options in target language dropdown
+  languageDropdown.innerHTML = '';
+
+  // Populate new target language options
+  targetLanguages.forEach(lang => {
+    const option = document.createElement("option");
+    option.value = lang;  // The language code
+    option.textContent = languageNameMap[lang] || lang;  // The corresponding language name or fallback to lang
+    languageDropdown.appendChild(option);
+  });
 }
 
 const startCall = async (user) => {
