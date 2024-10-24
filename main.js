@@ -10,6 +10,9 @@ const remoteVideo = document.querySelector("#remoteVideo");
 const streamLingoBtn = document.querySelector("#streamLingo");
 const transcriptionDiv = document.querySelector("#transcription");
 const translationStatus = document.querySelector("#transcriptionLabel");
+const chatBox = document.getElementById('chatBox');
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
 
 const socket = io("https://suited-working-barnacle.ngrok-free.app/");
 const currentUrl = new URL(window.location.href);
@@ -23,11 +26,11 @@ let isStreamLingoEnabled = false;
 const API_KEY = "33c8d69d70f0449ea11d21ea6f27be0b";
 const API_REGION = "eastus";
 
-const SOURCE_LANG = "en-US";
+let SOURCE_LANG = "en-US";
 let TARGET_LANG = "it"; //hi--- for hindi
 
 
-const SPEECH_LANG = "en-US-AvaMultilingualNeural";
+let SPEECH_LANG = "en-US-AvaMultilingualNeural";
 
 
 const languageMap = {
@@ -63,9 +66,9 @@ const languageNameMap = {
 
 //const SPEECH_LANG = "es-BO-ElviraNeural";
 //////////////////////\ Peer Connection Setup /\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+let pc;
 const PeerConnection = (function () {
-  let pc;
+  
   const createPeerConnection = () => {
     const config = {
       iceServers: [
@@ -185,8 +188,84 @@ sourceLanguageDropdown.addEventListener("change",(e)=>{
     console.log("unable to get the value or the socketid not initialized");
   }
 
+})
+const gender = document.querySelector('#genderSelect');
+gender.addEventListener("change",(e)=>{
+  console.log("gender change identified",e.target.value);
+  let gender = e.target.value;
+  if(gender){
+    socket.emit("gender-change",{gender});
+  }
+})
+
+const nueralVoice = document.querySelector('#femaleVoices');
+nueralVoice.addEventListener("change",(e)=>{
+  let voice = e.target.value;
+  console.log("voice change in event listener",voice)
+  if(voice && socket){
+    SPEECH_LANG = voice;
+    socket.emit("voice-change",{voice});
+    console.log("updated the voice code",voice)
+  }else{
+    console.log("unable to update the vocie code")
+  }
+})
+
+const nueralVoicemale =document.querySelector('#maleVoices');
+nueralVoicemale.addEventListener("change",(e)=>{
+  let voice = e.target.value;
+  console.log("voice change in event listener",voice)
+  if(maleVoice && socket){
+    SPEECH_LANG = voice;
+    socket.emit("voice-change",{voice});
+    console.log("updated the voice code",voice)
+  }else{
+    console.log("unable to update the vocie code")
+  }
+})
+
+
+let isScreenSharing = false;
+const shareScreenBtn = document.querySelector('#shareScreenBtn');
+shareScreenBtn.addEventListener("click", async () => {
+  console.log("started screen Share");
+  if (!isScreenSharing) {
+    // Start screen sharing
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true
+      });
+
+      const screenTrack = screenStream.getVideoTracks()[0];
+      //localVideo.srcObject = screenStream;
+      const sender = pc.getSenders().find(s => s.track.kind === "video");
+
+      if (sender) {
+        sender.replaceTrack(screenTrack); // Replace camera video with screen sharing
+      }
+
+      localVideo.srcObject = screenStream;
+      isScreenSharing = true;
+      shareScreenBtn.textContent = "Stop Screen Share"; // Update button text
+
+      // Stop screen share when user manually stops it
+      screenTrack.onended = () => {
+        stopScreenShare(sender); // Revert back to camera video when screen share ends
+      };
+    } catch (error) {
+      console.error("Error sharing screen: ", error);
+    }
+  } else {
+    // Stop screen sharing and revert to camera
+    const sender = pc.getSenders().find(s => s.track.kind === "video");
+    stopScreenShare(sender);
+  }
 });
 
+
+//send button from chat application
+
+//chatSend.addEventListener("click",async())
 
 //////////////////////\ Sockets.io /\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -258,6 +337,7 @@ socket.on("language-update", ({ newLanguage }) => {
 
 socket.on("source-target-update",({newLanguage})=>{
   let lang = newLanguage;
+  SOURCE_LANG = newLanguage;
   console.log("updated the source langauge at the speaker end to",lang);
   if(lang){
     updateTargetLanguages(lang);
@@ -267,6 +347,25 @@ socket.on("source-target-update",({newLanguage})=>{
   }
   
 });
+
+socket.on("gender-change",({gender})=>{
+  let gen = gender;
+  console.log("gender changed sucessfully")
+  showVoices(gen);
+
+})
+
+socket.on("voice-change",({voice})=>{
+  let voiceName = voice;
+  if(voiceName){
+  SPEECH_LANG = voiceName;
+  console.log("voice change updated from the sockets",SPEECH_LANG,voice);
+  }
+  else{
+    console.log("unable to get the voice code from the docker");
+  }
+
+})
 
 socket.on("check",({username})=>{
   console.log("check intiaited in socket");
@@ -294,6 +393,35 @@ function updateTargetLanguages(sourceLang) {
     languageDropdown.appendChild(option);
   });
 }
+
+function showVoices(gender) {
+  if (gender === 'female') {
+      document.getElementById('femaleVoices').classList.remove('hidden');
+      document.getElementById('maleVoices').classList.add('hidden');
+  } else {
+      document.getElementById('femaleVoices').classList.add('hidden');
+      document.getElementById('maleVoices').classList.remove('hidden');
+  }
+}
+
+
+function stopScreenShare(sender) {
+  const localVideoTrack = localStream.getVideoTracks()[0]; // Get the camera video track
+  if (sender) {
+    sender.replaceTrack(localideoTrack); // Replace screen sharing with camera video
+  }
+  localVideo.srcObject = localStream; // Switch back to local camera feed
+  isScreenSharing = false;
+  shareScreenBtn.textContent = "Share Screen"; // Update button text
+}
+
+
+
+
+
+
+
+
 
 const startCall = async (user) => {
   const pc = PeerConnection.getInstance();

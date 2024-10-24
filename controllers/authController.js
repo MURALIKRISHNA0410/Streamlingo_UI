@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmail');
-
+const TextTranslationClient = require("@azure-rest/ai-translation-text").default
 // Sign Up
 exports.signUp = async (req, res) => {
   const { firstName, lastName, email, password, gender } = req.body;
@@ -116,4 +116,6 @@ exports.resetPassword = async (req, res) => {
       res.status(500).json({ msg: 'Server error' });
   }
 };
+
+
 

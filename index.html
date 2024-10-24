@@ -63,6 +63,56 @@
           <!-- Add more languages here -->
         </select>
     </div>
+    <div>
+      <label for="genderSelect">Choose Gender:</label>
+        <select id="genderSelect">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+        </select>
+        
+    </div>
+
+  <div>
+  <!-- Female Voices Select -->
+   
+    <select id="femaleVoices" class="hidden">
+        <option value="en-US-JennyNeural">English (US) - JennyNeural</option>
+        <option value="en-US-AriaNeural">English (US) - AriaNeural</option>
+        <option value="en-GB-SoniaNeural">English (UK) - SoniaNeural</option>
+        <option value="en-GB-LibbyNeural">English (UK) - LibbyNeural</option>
+        <option value="en-AU-NatashaNeural">English (Australia) - NatashaNeural</option>
+        <option value="en-IN-NeerjaNeural">English (India) - NeerjaNeural</option>
+        <option value="es-ES-ElviraNeural">Spanish (Spain) - ElviraNeural</option>
+        <option value="es-MX-DaliaNeural">Spanish (Mexico) - DaliaNeural</option>
+        <option value="fr-FR-DeniseNeural">French (France) - DeniseNeural</option>
+        <option value="de-DE-KatjaNeural">German (Germany) - KatjaNeural</option>
+        <option value="it-IT-ElsaNeural">Italian (Italy) - ElsaNeural</option>
+        <option value="zh-CN-XiaoxiaoNeural">Chinese (Mandarin, Simplified) - XiaoxiaoNeural</option>
+        <option value="zh-CN-YunxiNeural">Chinese (Mandarin, Simplified) - YunxiNeural</option>
+        <option value="ja-JP-NanamiNeural">Japanese (Japan) - NanamiNeural</option>
+        <option value="ko-KR-SunHiNeural">Korean (Korea) - SunHiNeural</option>
+        <option value="pt-BR-FranciscaNeural">Portuguese (Brazil) - FranciscaNeural</option>
+    </select>
+
+    <!-- Male Voices Select -->
+    <select id="maleVoices" class="hidden">
+        <option value="en-US-GuyNeural">English (US) - GuyNeural</option>
+        <option value="en-GB-RyanNeural">English (UK) - RyanNeural</option>
+        <option value="en-AU-WilliamNeural">English (Australia) - WilliamNeural</option>
+        <option value="en-IN-PrabhatNeural">English (India) - PrabhatNeural</option>
+        <option value="es-ES-AlvaroNeural">Spanish (Spain) - AlvaroNeural</option>
+        <option value="es-MX-JorgeNeural">Spanish (Mexico) - JorgeNeural</option>
+        <option value="fr-FR-HenriNeural">French (France) - HenriNeural</option>
+        <option value="de-DE-ConradNeural">German (Germany) - ConradNeural</option>
+        <option value="it-IT-DiegoNeural">Italian (Italy) - DiegoNeural</option>
+        <option value="zh-CN-YunyangNeural">Chinese (Mandarin, Simplified) - YunyangNeural</option>
+        <option value="ja-JP-KeitaNeural">Japanese (Japan) - KeitaNeural</option>
+        <option value="ko-KR-InJoonNeural">Korean (Korea) - InJoonNeural</option>
+        <option value="pt-BR-AntonioNeural">Portuguese (Brazil) - AntonioNeural</option>
+    </select>
+</div>
+
+ 
 
     <div id="videoContainer" class="video-container">
       <video id="localVideo" autoplay muted></video>
@@ -72,6 +122,9 @@
     <div>
       <button id="streamLingo" style="display: none;">StreamLingo</button>
     </div>
+    <div class="input-group">
+      <button id="shareScreenBtn">Share Screen</button>
+    </div>
 
     <div class="transcription-container">
       <label for="transcription" id="transcriptionLabel"></label>
@@ -79,6 +132,7 @@
     </div>
 
   </div>
+  
 
   <script src="main.js"></script>
 </body>
